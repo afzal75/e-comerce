@@ -1,7 +1,14 @@
+import { addToCart } from "../redux/features/cartSlice";
+import { useAppDispatch } from "../redux/hook";
 import Rating from "./Ratings";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const Modal = ({ product, onClose, handleAddToCart }: any) => {
+  const dispatch = useAppDispatch()
+
+  const handleProductCart = (product) => {
+    dispatch(addToCart(product))
+  }
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[984px] p-4 max-h-[90vh] overflow-auto">
@@ -40,7 +47,7 @@ const Modal = ({ product, onClose, handleAddToCart }: any) => {
                 onClick={(e) => handleAddToCart(e, product)}
               >
                 <img src="./assets/tag.svg" alt="" />
-                <span>${product?.price} | Add to Cart</span>
+                <button onClick={() => handleProductCart(product)}>${product?.price} | Add to Cart</button>
               </a>
               <a
                 onClick={onClose}
