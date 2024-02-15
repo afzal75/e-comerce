@@ -4,8 +4,11 @@ import { ShoppingCart } from "lucide-react";
 import Rating from "./Ratings";
 import { useState } from "react";
 import Modal from "./Modal";
+import { useAppDispatch } from "../redux/hook";
+import { addToCart } from "../redux/features/cartSlice";
 
 const ProductCard = ({ product }: any) => {
+  const dispatch = useAppDispatch()
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const handleShowModal = (product: any) => {
@@ -16,18 +19,26 @@ const ProductCard = ({ product }: any) => {
     setSelectedProduct(null);
     setShowModal(false);
   };
+
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product))
+  }
+
+
+
   return (
     <div>
       {showModal && (
         <Modal
           product={selectedProduct}
           onClose={handleCloseModal}
-          handleAddToCart={() => {}}
+          handleAddToCart={() => { }}
         />
       )}
       <a href="#" onClick={() => handleShowModal(product)}>
         <div key={product.id} className="border p-4">
-          <img src={product.img} alt="" className="w-full" />
+          <img src={product.img} alt="" className="w-2/4" />
           <h3 className="text-lg font-bold truncate mt-4 mb-2">
             {product.name}
           </h3>
@@ -38,6 +49,7 @@ const ProductCard = ({ product }: any) => {
           <button
             onClick={(e) => {
               e.stopPropagation();
+              handleAddToCart(product)
             }}
             className="bg-primary text-white px-4 py-2 mt-2 rounded-md w-full"
           >
